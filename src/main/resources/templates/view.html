@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+JDigiDoc Hwcrypto Demo
+
+The MIT License (MIT)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html>
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>JDigiDoc hwcrypto demo webapp</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
+    <script src="js/hwcrypto.js"/>
+    <script src="js/hwcrypto-legacy.js"/>
+    <script src="js/jquery-1.11.2.min.js"/>
+    <script src="js/jquery.form.min.js"/>
+    <script src="js/hex2base.js"/>
+    <script src="js/app.js"/>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+                <div class="col-md-12">
+                <h1>JDigiDoc hwcrypto demo webapp</h1>
+                <p>
+                    This is a Demo webapp for digital signig with the combination of
+                    <a href="https://github.com/open-eid/hwcrypto.js/wiki">hwcrypto.js</a> on the frontend and <a href="https://github.com/open-eid/jdigidoc">JDigiDoc</a> on the backend.
+                </p>
+                <p>
+                    Preparations:
+                    <ol>
+                        <li>Install your country specific eID driver software.</li>
+                        <li>Install <a href="https://github.com/open-eid/chrome-token-signing/releases">Chrome Token Signing Software</a> for giving eSignatures in Google Chrome.</li>
+                        <li>Make sure you are accessing the page over HTTPS.</li>
+                    </ol>
+                </p>
+                <p>
+                    Peek into JavaScript console for more verbose background information.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                <h3>1. Select a file to sign</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="fileUpload" action="upload" method="post">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-primary btn-file">
+                                            Browse… <input type="file" name="file" id="file" multiple=""/>
+                                        </span>
+                                    </span>
+                                    <input type="text" name="fileName" id="fileName" class="form-control" readonly=""/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="progress">
+                            <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                <h3>2. Sign</h3>
+                <button class="btn" id="signButton" type="button" disabled="disabled">Sign()</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 hidden" id="downloadSection">
+                <h3>3. Download signed container</h3>
+                <a href="downloadContainer" class="btn btn-success" id="downloadButton">Download</a>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">Please contact <a href="mailto:support@sk.ee">support@sk.ee</a> if you have any questions</p>
+        </div>
+    </footer>
+
+</body>
+</html>
