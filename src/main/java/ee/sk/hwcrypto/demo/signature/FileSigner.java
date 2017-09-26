@@ -64,7 +64,7 @@ public class FileSigner {
     @PostConstruct
     protected void initConfig() throws DigiDocException, IOException, SAXNotSupportedException, SAXNotRecognizedException, ParserConfigurationException {
         synchronized (lock) {
-            final File file = File.createTempFile("ddoc-jdigidoc-", ".cfg");
+            final File file = File.createTempFile("jdigidoc-", ".cfg");
             try (
                     InputStream inputStream = getClass().getResourceAsStream(JDIGIDOC_CONF_FILE);
                     OutputStream outputStream = new FileOutputStream(file)

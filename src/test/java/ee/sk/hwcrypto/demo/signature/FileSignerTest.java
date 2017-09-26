@@ -63,6 +63,5 @@ public class FileSignerTest {
         fileSigner.signContainer(signedDoc, signatureInHex);
         assertEquals(1, signedDoc.getSignatures().size());
         assertTrue(signedDoc.getSignature(0).validate().isEmpty());
-        signedDoc.getSignature(0).getConfirmation();
     }
 }
