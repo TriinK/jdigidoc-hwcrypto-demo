@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package ee.sk.hwcrypto.demo.model;
+package ee.sk.hwcrypto.demo.signature.model;
 
 import ee.sk.digidoc.SignedDoc;
 import org.springframework.context.annotation.Scope;

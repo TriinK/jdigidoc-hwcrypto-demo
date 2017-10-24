@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-$(document).on('change', '.btn-file :file', function() {
+$(document).on('change', '.btn-file #file', function() {
     var input = $(this),
         label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
     disableSign();
@@ -40,7 +40,7 @@ $(document).ready(function() {
     $('#fileUpload').submit(function(e) {
         if($('#file').val()) {
             e.preventDefault();
-            var progressBar = $("#progress-bar");
+            var progressBar = $("#file-upload-progress-bar");
             $(this).ajaxSubmit({
                 beforeSubmit: function() {
                     progressBar.width('0%');
@@ -129,4 +129,43 @@ sign = function() {
         console.log("container is ready for download");
     });
 };
+
+$(document).on('change', '.btn-file #document', function() {
+    var input = $(this),
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    console.log(input)
+    $("#documentName").val(label);
+    $('#validateDocument').submit();
+});
+
+$(document).ready(function() {
+    $('#validateDocument').submit(function(e) {
+        if($('#document').val()) {
+            e.preventDefault();
+            var progressBar = $("#validate-document-progress-bar");
+            $(this).ajaxSubmit({
+                beforeSubmit: function() {
+                    progressBar.width('0%');
+                    progressBar.removeClass("progress-bar-success");
+                },
+                uploadProgress: function(event, position, total, percentComplete){
+                    console.log("percent complete: "+ percentComplete);
+                    progressBar.width(percentComplete + '%');
+                    progressBar.html('<span>' + percentComplete +' %</span>');
+                },
+                success: function(response) {
+                    console.log("successfully validated document");
+                    progressBar.addClass("progress-bar-success");
+                    console.log(response);
+                    document.getElementById("validationResult").innerHTML = JSON.stringify(response, undefined, 2);
+                },
+                error: function(xhr, textStatus, error){
+                    console.log("error validating document: " + error)
+                },
+                resetForm: false
+            });
+            return false;
+        }
+    });
+});
 

@@ -26,7 +26,7 @@ package ee.sk.hwcrypto.demo.controller;
 import ee.sk.digidoc.DataFile;
 import ee.sk.digidoc.DigiDocException;
 import ee.sk.digidoc.SignedDoc;
-import ee.sk.hwcrypto.demo.model.SigningSessionData;
+import ee.sk.hwcrypto.demo.signature.model.SigningSessionData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

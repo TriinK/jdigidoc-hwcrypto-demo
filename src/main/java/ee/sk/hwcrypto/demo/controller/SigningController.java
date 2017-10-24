@@ -25,9 +25,9 @@ package ee.sk.hwcrypto.demo.controller;
 
 import ee.sk.digidoc.DigiDocException;
 import ee.sk.digidoc.SignedDoc;
-import ee.sk.hwcrypto.demo.model.Digest;
-import ee.sk.hwcrypto.demo.model.Result;
-import ee.sk.hwcrypto.demo.model.SigningSessionData;
+import ee.sk.hwcrypto.demo.signature.model.Digest;
+import ee.sk.hwcrypto.demo.signature.model.Result;
+import ee.sk.hwcrypto.demo.signature.model.SigningSessionData;
 import ee.sk.hwcrypto.demo.signature.FileSigner;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class SigningController {
     @Autowired
     private FileSigner signer;
 
-    @RequestMapping(value="/upload", method= RequestMethod.POST)
+    @RequestMapping(value="/upload", method=RequestMethod.POST)
     public Result handleUpload(@RequestParam MultipartFile file) {
         log.debug("Handling file upload for file "+file.getOriginalFilename());
         try {

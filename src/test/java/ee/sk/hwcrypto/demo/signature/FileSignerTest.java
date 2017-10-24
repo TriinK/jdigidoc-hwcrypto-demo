@@ -24,11 +24,13 @@
 package ee.sk.hwcrypto.demo.signature;
 
 import ee.sk.digidoc.SignedDoc;
+import ee.sk.hwcrypto.demo.JDigiDocConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.runners.model.MultipleFailureException.assertEmpty;
 
 public class FileSignerTest {
 
@@ -38,7 +40,7 @@ public class FileSignerTest {
     @Before
     public void setUp() throws Exception {
         fileSigner = new FileSigner();
-        fileSigner.initConfig();
+        JDigiDocConfiguration.initConfig();
         certificateInHex = TestSigningData.getSigningCertificateInHex();
     }
 
@@ -62,6 +64,6 @@ public class FileSignerTest {
         String signatureInHex = TestSigningData.signDigest(digestToSign, DigestAlgorithm.SHA256);
         fileSigner.signContainer(signedDoc, signatureInHex);
         assertEquals(1, signedDoc.getSignatures().size());
-        assertTrue(signedDoc.getSignature(0).validate().isEmpty());
+        assertEmpty(signedDoc.getSignature(0).verify(signedDoc, true, false));
     }
 }

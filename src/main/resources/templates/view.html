@@ -32,72 +32,136 @@ SOFTWARE.
     <script src="js/hwcrypto-legacy.js"/>
     <script src="js/jquery-1.11.2.min.js"/>
     <script src="js/jquery.form.min.js"/>
+    <script src="js/bootstrap.js"/>
     <script src="js/hex2base.js"/>
     <script src="js/app.js"/>
 </head>
 <body>
     <div class="container">
+
         <div class="row">
-                <div class="col-md-12">
+            <div class="col-md-12">
                 <h1>JDigiDoc hwcrypto demo webapp</h1>
                 <p>
-                    This is a Demo webapp for digital signig with the combination of
-                    <a href="https://github.com/open-eid/hwcrypto.js/wiki">hwcrypto.js</a> on the frontend and <a href="https://github.com/open-eid/jdigidoc">JDigiDoc</a> on the backend.
-                </p>
-                <p>
-                    Preparations:
-                    <ol>
-                        <li>Install your country specific eID driver software.</li>
-                        <li>Install <a href="https://github.com/open-eid/chrome-token-signing/releases">Chrome Token Signing Software</a> for giving eSignatures in Google Chrome.</li>
-                        <li>Make sure you are accessing the page over HTTPS.</li>
-                    </ol>
-                </p>
-                <p>
-                    Peek into JavaScript console for more verbose background information.
+                    This is a Demo webapp for
+                    <ul>
+                        <li>digitallly signing a document with the combination of <a href="https://github.com/open-eid/hwcrypto.js/wiki">hwcrypto.js</a> on the frontend and <a href="https://github.com/open-eid/jdigidoc">JDigiDoc</a> on the backend.</li>
+                        <li>Validating a document with <a href="https://github.com/open-eid/jdigidoc">JDigiDoc</a> on the backend</li>
+                    </ul>
                 </p>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-7">
-                <h3>1. Select a file to sign</h3>
+            <div class="col-md-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#sign">Sign</a></li>
+                    <li><a data-toggle="tab" href="#validate">Validate</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div id="sign" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-md-12">
-                        <form id="fileUpload" action="upload" method="post">
-                            <div class="form-group">
-                                <div class="input-group">
+                        <h3>Preparations:</h3>
+                        <p>
+                            <ol>
+                                <li>Install your country specific eID driver software.</li>
+                                <li>Install <a href="https://github.com/open-eid/chrome-token-signing/releases">Chrome Token Signing Software</a> for giving eSignatures in Google Chrome.</li>
+                                <li>Make sure you are accessing the page over HTTPS.</li>
+                            </ol>
+                        </p>
+                        <p>
+                            Peek into JavaScript console for more verbose background information.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <h3>1. Select a file to sign</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="fileUpload" action="upload" method="post">
+                                    <div class="form-group">
+                                        <div class="input-group">
                                     <span class="input-group-btn">
                                         <span class="btn btn-primary btn-file">
                                             Browse… <input type="file" name="file" id="file" multiple=""/>
                                         </span>
                                     </span>
-                                    <input type="text" name="fileName" id="fileName" class="form-control" readonly=""/>
+                                            <input type="text" name="fileName" id="fileName" class="form-control" readonly=""/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="progress">
+                                    <div class="progress-bar" id="file-upload-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="progress">
-                            <div class="progress-bar" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                    <div class="col-md-7">
+                        <h3>2. Sign</h3>
+                        <button class="btn" id="signButton" type="button" disabled="disabled">Sign()</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7 hidden" id="downloadSection">
+                        <h3>3. Download signed container</h3>
+                        <a href="downloadContainer" class="btn btn-success" id="downloadButton">Download</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="validate" class="tab-pane fade">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h3>1. Select a document to validate</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="validateDocument" action="validate" method="post">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-primary btn-file">
+                                            Browse… <input type="file" name="document" id="document" multiple=""/>
+                                        </span>
+                                    </span>
+                                            <input type="text" name="documentName" id="documentName" class="form-control" readonly=""/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="progress">
+                                    <div class="progress-bar" id="validate-document-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>2. Validation result</h3>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <pre id="validationResult"></pre>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-7">
-                <h3>2. Sign</h3>
-                <button class="btn" id="signButton" type="button" disabled="disabled">Sign()</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-7 hidden" id="downloadSection">
-                <h3>3. Download signed container</h3>
-                <a href="downloadContainer" class="btn btn-success" id="downloadButton">Download</a>
-            </div>
-        </div>
-    </div>
 
+    </div>
 </body>
 </html>
