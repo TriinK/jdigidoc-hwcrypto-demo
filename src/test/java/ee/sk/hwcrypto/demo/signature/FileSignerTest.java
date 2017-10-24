@@ -23,6 +23,7 @@
  */
 package ee.sk.hwcrypto.demo.signature;
 
+import ee.sk.digidoc.Signature;
 import ee.sk.digidoc.SignedDoc;
 import ee.sk.hwcrypto.demo.JDigiDocConfiguration;
 import org.junit.Before;
@@ -35,13 +36,11 @@ import static org.junit.runners.model.MultipleFailureException.assertEmpty;
 public class FileSignerTest {
 
     private FileSigner fileSigner;
-    private String certificateInHex;
 
     @Before
     public void setUp() throws Exception {
         fileSigner = new FileSigner();
         JDigiDocConfiguration.initConfig();
-        certificateInHex = TestSigningData.getSigningCertificateInHex();
     }
 
     @Test
@@ -52,18 +51,38 @@ public class FileSignerTest {
 
     @Test
     public void gettingDataToSign() throws Exception {
+        Pkcs12Signer pkcs12Signer = new Pkcs12Signer("src/test/resources/rsa.p12", "test");
         SignedDoc signedDoc = fileSigner.createBDocContainer("Hello".getBytes(), "hello.txt" , "application/text");
-        byte[] digestToSign = fileSigner.getDataToSign(signedDoc, certificateInHex);
+        byte[] digestToSign = fileSigner.getDataToSign(signedDoc, pkcs12Signer.getSigningCertificateInHex());
         assertTrue(digestToSign.length > 0);
     }
 
     @Test
-    public void signDocument() throws Exception {
+    public void signDocumentWithRSA() throws Exception {
+        Pkcs12Signer pkcs12Signer = new Pkcs12Signer("src/test/resources/rsa.p12", "test");
         SignedDoc signedDoc = fileSigner.createBDocContainer("Hello".getBytes(), "hello.txt" , "application/text");
-        byte[] digestToSign = fileSigner.getDataToSign(signedDoc, certificateInHex);
-        String signatureInHex = TestSigningData.signDigest(digestToSign, DigestAlgorithm.SHA256);
+        byte[] digestToSign = fileSigner.getDataToSign(signedDoc, pkcs12Signer.getSigningCertificateInHex());
+        String signatureInHex = pkcs12Signer.signDigest(digestToSign, DigestAlgorithm.SHA256);
         fileSigner.signContainer(signedDoc, signatureInHex);
         assertEquals(1, signedDoc.getSignatures().size());
         assertEmpty(signedDoc.getSignature(0).verify(signedDoc, true, false));
+    }
+
+    @Test
+    public void signDocumentWithECC() throws Exception {
+        Pkcs12Signer pkcs12Signer = new Pkcs12Signer("src/test/resources/ecc_test.p12", "ecc_test");
+        SignedDoc signedDoc = fileSigner.createBDocContainer("Hello".getBytes(), "hello.txt" , "application/text");
+        byte[] digestToSign = fileSigner.getDataToSign(signedDoc, pkcs12Signer.getSigningCertificateInHex());
+        String signatureInHex = pkcs12Signer.signDigest(digestToSign, DigestAlgorithm.SHA256);
+        fileSigner.signContainer(signedDoc, signatureInHex);
+        assertEquals(1, signedDoc.getSignatures().size());
+
+        Signature signature = signedDoc.getSignature(0);
+
+        // This line is needed in order to fix nullpointer for elliptic curve signature verification
+        // when the document is not read into JDigiDoc from bytes, but rather verified right after creating the signature
+        signature.getSignedInfo().setOrigXml(signature.calculateSignedInfoXML());
+
+        assertEmpty(signature.verify(signedDoc, true, false));
     }
 }

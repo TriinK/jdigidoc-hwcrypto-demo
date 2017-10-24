@@ -36,7 +36,7 @@ public class DocumentValidator {
         for (Signature signature : getSignatures(signedDoc)) {
             List<DigiDocException> signatureValidationErrors = signature.validate();
 
-            // This line is needed in order to fix nullpointer for verification of elliptic curve signatures
+            // This line is needed in order to fix nullpointer for elliptic curve signature verification
             // when the document is not read into JDigiDoc from bytes, but rather verified right after creating the signature
             signature.getSignedInfo().setOrigXml(signature.calculateSignedInfoXML());
 
