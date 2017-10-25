@@ -24,9 +24,9 @@ public class ValidationController {
     DocumentValidator documentValidator;
 
     @RequestMapping(value="/validate", method=RequestMethod.POST)
-    public Map<String, SignatureValidationResult> validateDocument(@RequestParam MultipartFile file) throws IOException, DigiDocException {
-        log.debug("Validating document" + file.getOriginalFilename());
-        return documentValidator.validate(file.getName(), file.getBytes());
+    public Map<String, SignatureValidationResult> validateDocument(@RequestParam MultipartFile document) throws IOException, DigiDocException {
+        log.debug("Validating document" + document.getOriginalFilename());
+        return documentValidator.validate(document.getOriginalFilename(), document.getBytes());
     }
 
 } 
