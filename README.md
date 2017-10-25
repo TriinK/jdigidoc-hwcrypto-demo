@@ -1,10 +1,11 @@
 # JDigiDoc hwcrypto demo webapp
 
-This is a Demo webapp for digital signing with the combination of [hwcrypto.js](https://github.com/open-eid/hwcrypto.js/wiki) on the frontend and [JDigiDoc](https://github.com/open-eid/jdigidoc) on the backend.
+This is a Demo webapp for
 
- * License: MIT
+ * Digitallly signing a document with the combination of [hwcrypto.js](https://github.com/open-eid/hwcrypto.js/wiki) on the frontend and [JDigiDoc](https://github.com/open-eid/jdigidoc) on the backend
+ * Validating a document with [JDigiDoc](https://github.com/open-eid/jdigidoc) on the backend
 
-1. requirements
+1. Requirements
 
   * Java 1.8 (might also work with 1.7 - not tested)
   * Apache Maven 3.2 or above
